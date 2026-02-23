@@ -1,0 +1,214 @@
+<!DOCTYPE html>
+<!-- saved from url=(0033)file:///C:/Users/L.Rahul/eme.html -->
+<html lang="en"><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+  
+  <title>Emergency Roadline</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      margin: 0;
+      background-color: #f2f2f2;
+    }
+
+    header {
+      background-color: #e53935;
+      color: white;
+      padding: 20px;
+      text-align: center;
+    }
+
+    .container {
+      padding: 20px;
+      max-width: 800px;
+      margin: auto;
+    }
+
+    .emergency {
+      background: white;
+      padding: 20px;
+      border-radius: 10px;
+      text-align: center;
+      box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+    }
+
+    .call-btn {
+      background-color: #e53935;
+      color: white;
+      border: none;
+      padding: 15px 25px;
+      font-size: 18px;
+      border-radius: 8px;
+      cursor: pointer;
+      margin-top: 15px;
+    }
+
+    .call-btn:hover {
+      background-color: #c62828;
+    }
+
+    input {
+      width: 100%;
+      padding: 12px;
+      margin-top: 15px;
+      font-size: 16px;
+      border-radius: 6px;
+      border: 1px solid #ccc;
+    }
+
+    .services {
+      margin-top: 30px;
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+      gap: 15px;
+    }
+
+    .service {
+      background: white;
+      padding: 15px;
+      border-radius: 8px;
+      text-align: center;
+      box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+    }
+
+    footer {
+      text-align: center;
+      padding: 15px;
+      background: #222;
+      color: white;
+      margin-top: 30px;
+    }
+  </style>
+</head>
+
+<body>
+
+<header>
+  <h1>🚨 Emergency Roadline</h1>
+  <p>24/7 Roadside Assistance</p>
+</header>
+
+<div class="container">
+
+  <div class="emergency">
+    <h2>Need Immediate Help?</h2>
+    <p><strong>Call our emergency number</strong></p>
+    <h3>📞 1800-ROAD-HELP</h3>
+
+    <button class="call-btn" onclick="callNow()">Call Now</button>
+
+  </div>
+
+  <h2 style="margin-top: 30px;">Our Services</h2>
+
+ <div class="service">
+  📍
+  <h3>Live Ambulance GPS Tracker</h3>
+
+  <button class="call-btn" onclick="getLocation()">
+    Track Live Location
+  </button>
+
+  <div id="mapContainer" style="margin-top:15px;"></div>
+
+  <button class="call-btn" onclick="requestSignal()" style="margin-top:15px;">
+    🚦 Request Green Corridor
+  </button>
+
+  <div id="signalStatus" style="margin-top:15px; font-weight:bold;"></div>
+
+<button class="call-btn" onclick="findHospitals()" style="margin-top:15px;">
+  🏥 Find Nearby Hospitals
+</button>
+
+
+  
+  </div>
+
+</div>
+
+<footer>
+  <p> 2026 Emergency Roadline</p>
+</footer>
+
+<script>
+  let currentLat = null;
+  let currentLon = null;
+
+  function callNow() {
+    window.location.href = "tel:938043216";
+  }
+
+  function getLocation() {
+
+    if (!navigator.geolocation) {
+      alert("Geolocation is not supported by this browser.");
+      return;
+    }
+
+    navigator.geolocation.getCurrentPosition(
+      function(position) {
+
+        currentLat = position.coords.latitude;
+        currentLon = position.coords.longitude;
+
+        document.getElementById("mapContainer").innerHTML =
+          `<p><strong>Latitude:</strong> ${currentLat}</p>
+           <p><strong>Longitude:</strong> ${currentLon}</p>
+           <iframe 
+             width="100%" 
+             height="250" 
+             style="border:0;" 
+             loading="lazy"
+             src="https://www.google.com/maps?q=${currentLat},${currentLon}&z=18&output=embed">
+           </iframe>`;
+      },
+      function(error) {
+        alert("Please allow location access.");
+        console.log(error);
+      },
+      {
+        enableHighAccuracy: true
+      }
+    );
+  }
+
+  function requestSignal() {
+
+    if (currentLat === null || currentLon === null) {
+      alert("⚠ Please track location first!");
+      return;
+    }
+
+    var statusDiv = document.getElementById("signalStatus");
+
+    statusDiv.innerHTML = "📡 Sending location to Smart Traffic Control...";
+
+    setTimeout(function() {
+      statusDiv.innerHTML = "🚦 Identifying nearest traffic signals...";
+    }, 2000);
+
+    setTimeout(function() {
+      statusDiv.innerHTML = "🟡 Coordinating with city traffic network...";
+    }, 4000);
+
+    setTimeout(function() {
+      statusDiv.innerHTML =
+        "🟢 GREEN CORRIDOR ACTIVATED! <br> 🚑 Ambulance route cleared. <br> ⏱ Estimated arrival time reduced by 4 minutes.";
+    }, 6000);
+  }
+
+  function findHospitals() {
+
+    if (!currentLat || !currentLon) {
+      alert("⚠ Please click 'Track Live Location' first.");
+      return;
+    }
+
+    window.location.href =
+      "https://www.google.com/maps/search/hospitals/@"
+      + currentLat + "," + currentLon + ",15z";
+  }
+</script>
+</body></html>
